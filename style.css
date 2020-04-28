@@ -4,13 +4,56 @@
     border: black;
     border-style: solid;
     border-width: 5px;
+}
+
+.flex-container {
     display: flex;
+    flex-direction: row;
+}
+
+.siderbarui {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.receipe {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.receipes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 210px; 
+    height: 70px;
+    border: black;
+    border-style: solid;
+    border-width: 2px;
+    margin: 10px;
+
+
 }
 
 
-.flex-container{
+
+.plates {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.ingredients {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row;
+    justify-content: center;  
 }
 
 button {
@@ -19,27 +62,18 @@ button {
     height: 50px; 
 }
 
-.plates1, .plates2, .plates3 {
-    width: 200px; 
-    height: 100px; 
+img {
+    display: block;
+}
+
+.plate {
+    width: 100px;
+    height: 100px;
     border: black;
     border-style: solid;
-    border-width: 2px;
+    border-width: 2px
 }
 
-.ingredients {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: flex-start;
-}
-
-.dishes {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-
-}
 
 .dishRect {
     margin-top: 5px;
@@ -49,4 +83,18 @@ button {
     border: black;
     border-style: solid;
     border-width: 2px;
+}
+.smaller {
+    width: 50px;
+    height: 50px;
+}
+
+.ingredientimage {
+    width: 35px;
+    height: 35px;
+}
+
+#mainImg {
+    width: 70px;
+    height: 70px;
 }
