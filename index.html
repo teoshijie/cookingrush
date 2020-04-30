@@ -18,13 +18,20 @@
         <div class="flex-container">
         <div class="siderbarui">
             <button type="button" id="startGame">Start Game</button>
-            <button type="button" id="Instructions">Instructions</button>
+            <button type="button" id="instructions">Instructions</button>
+            <div id="instructions-modal">
+                <div id="instructions-textbox">
+                  <a id="close" href="#">Close</a>
+                  <h1>How to play?</h1>
+                    <p>Drag and drop the ingredients to the corresponding receipt above!</p>
+                </div>
+              </div>
             <p id= "timer">150</p>
             <p id= "score">0</p>
         </div>
         <div class= "game">
         <div class="receipe">
-            <div id="receipe1" class= "receipes"> </div>
+            <div id="receipe1" class= "receipes blink"> </div>
             <div id="receipe2"  class= "receipes"> </div>
             <div id="receipe3" class= "receipes" > </div>
         </div> 
@@ -37,11 +44,14 @@
             <img src="https://i.ibb.co/WBw78Nx/plate.jpg" id= "plates3" class = "plate" alt="plate" width= "150px" height="150px"> -->
         </div>
         <div class="ingredients">
-            
+
         </div>
     </div>
     </div>
     </div>
+    <div class="popup"></div>
+        <p class="popuptext" id="myPopup"> sfdf</p>
+      </div> 
 </body>
 
 </html>

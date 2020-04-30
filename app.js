@@ -1,11 +1,5 @@
 console.log('app connected!')
 
-
-let plateOne = [];
-let plateTwo = [];
-let plateThree = [];
-
-
 let imageObjects = [
     {
         ingredient: "chicken",
@@ -61,13 +55,17 @@ let receipeOne = [];
 let receipeTwo = [];
 let receipeThree = [];
 
+let plateOne = [];
+let plateTwo = [];
+let plateThree = [];
+
+
 // Generate the types of dishes 
 const findImageUrl = (receipe, receipeID) => {
-    const flattenReceipe = receipe.flat();
-    for (let a = 0; a < flattenReceipe.length; a++){
-        for (let i =0; i< imageObjects.length; i++){
-            if (imageObjects[i].ingredient === flattenReceipe[a]) {
-                let ingredientImage = $('<img>').attr('src',imageObjects[i].url).addClass('ingredientimage')
+    for (let a = 0; a < receipe.length; a++) {
+        for (let i = 0; i < imageObjects.length; i++) {
+            if (imageObjects[i].ingredient === receipe[a]) {
+                let ingredientImage = $('<img>').attr('src', imageObjects[i].url).addClass('ingredientimage')
                 receipeID.append(ingredientImage);
             }
         }
@@ -75,33 +73,45 @@ const findImageUrl = (receipe, receipeID) => {
 };
 
 
-const generateDishes = (receipeID, receipe) => {
+const generateDishes = (receipeID, receipeVar) => {
     let randomIndex = Math.floor(Math.random() * 3);
     let receipeInplay = burgerRecipe[randomIndex].ingredients
-    console.log(`receipe is ${receipeInplay}`)
-    receipe.push(receipeInplay);
+    receipeVar.push.apply(receipeVar, receipeInplay);
+    console.log(receipeOne);
+    console.log(receipeTwo);
+    console.log(`receipe is ${receipeVar}`)
+
     const $mainImg = $('<img>')
-        $mainImg.attr({
+    $mainImg.attr({
         "id": "mainImg",
         "src": burgerRecipe[randomIndex].dishImage,
     })
     receipeID.append($mainImg);
-    findImageUrl(receipe, receipeID);
+    findImageUrl(receipeVar, receipeID);
 }
 
 //match ingredients 
 
-const matchingredients = (plate, receipe, plateId,receipeID) => {
-    if (plate.sort().join(',') === receipe.sort().join(',')) {
-        plate = [];
-        console.log(plate)
-        plateId.empty();
-        receipeID.empty();
-        addScore();
-        generateDishes(receipeID);
+function clearArray(array) {
+    while (array.length) {
+        array.pop();
     }
 }
 
+const matchingredients = (plateVar, receipeVar, plateId, receipeID) => {
+    console.log(`on plate: ${plateVar}`);
+    console.log(`in receipe: ${receipeVar}`);
+    if (plateVar.sort().join(',') === receipeVar.sort().join(',')) {
+        clearArray(plateVar)
+        console.log(`on plate afterclearing: ${plateVar}`);
+        clearArray(receipeVar)
+        console.log(plateVar)
+        plateId.empty();
+        receipeID.empty();
+        addScore();
+        generateDishes(receipeID, receipeVar);
+    }
+}
 
 //Generate draggable ingredients 
 const appendImage = () => {
@@ -115,27 +125,46 @@ const appendImage = () => {
 }
 
 const dragObject = () => {
-    $('.draggable').draggable({ helper: 'clone' });
+    $('.draggable').draggable({
+        helper: 'clone',
+        disabled: false,
+    });
 }
 
-
-const dropObject = (plateId, platevariable, receipe, receipeID) => {
+const dropObject = (plateId, plateVar, receipeVar, receipeID) => {
     plateId.droppable(
         {
             accept: '.draggable',
-            drop: function (ev, ui) {
+            //     classes: {
+            //         "ui-droppable": "highlight"
+            //       },
+            drop: function (event, ui) {
                 const droppedItem = $(ui.draggable).clone()
+                $(this).addClass("dropped")
                 plateId.append(droppedItem);
-                console.log(droppedItem)
                 const droppedItemId = $(ui.draggable).get(0).id
-                platevariable.push(droppedItemId);
-                let flattenReceipe = receipe.flat();
-                console.log(platevariable);
+                plateVar.push(droppedItemId);
+                console.log(`dropped on plate: ${plateVar} `)
+                console.log(`before going to match functions ${receipeVar}`);
                 console.log(droppedItemId);
-                matchingredients(platevariable, flattenReceipe, plateId, receipeID);
+                matchingredients(plateVar, receipeVar, plateId, receipeID);
+            },
+            over: function (event, ui) {
+
             }
         })
 }
+
+const disableDraggable = () => {
+    $(".draggable").draggable({
+        disabled: true
+    });
+}
+
+const disableDraggableevent = (number) => {
+    setTimeout(disableDraggable, number)
+}
+
 
 // timer 
 let counter = 100;
@@ -153,27 +182,47 @@ const startCountdown = () => {
     }, 1000);
 }
 
+//remove ingredients on plate
 
+const removeIngredients = () => {
+    $(event.currentTarget).children().remove();
+    console.log($event.currentTarget);
+}
 
-// const dishMade = () => {
-//     if 
-// }
+const endgame = () => {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+
+// change modal display to block 
+const openInstructionsmodal = () => {
+    $('#instructions-modal').css('display','block');
+}
+
+const closeInstructionsmodal = () => {
+    $('#instructions-modal').css('display','none');
+}
 
 const start = () => {
+    generateDishes($('#receipe1'), receipeOne);
+    setTimeout(generateDishes($('#receipe2'), receipeTwo),50000);
+    generateDishes($('#receipe3'), receipeThree);
     appendImage();
     dragObject();
+    $('.draggable').draggable("option", "addClasses", "dragged");
     dropObject($('#plates1'), plateOne, receipeOne, $('#receipe1'));
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
-    generateDishes($('#receipe1'), receipeOne);
-    generateDishes($('#receipe2'), receipeTwo);
-    generateDishes($('#receipe3'), receipeThree);
+    disableDraggableevent(100000);
 }
 
 $(() => {
-    $('#startGame').on('click',start)
-
+    $('#startGame').one('click', start)
+    $('.plate').on('click', removeIngredients);
+    $('.popuptext').on('click', endgame);
+    $('#instructions').on('click',openInstructionsmodal);
+    $('#close').on('click',closeInstructionsmodal);
 });
 
 
