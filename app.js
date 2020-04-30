@@ -51,6 +51,13 @@ const addScore = () => {
     $('#score').text(score)
 }
 
+const minusScore = () => {
+    $('#score').empty();
+    score -= 4;
+    $('#score').text(score);
+
+}
+
 let receipeOne = [];
 let receipeTwo = [];
 let receipeThree = [];
@@ -58,6 +65,27 @@ let receipeThree = [];
 let plateOne = [];
 let plateTwo = [];
 let plateThree = [];
+
+//destroy dishes on plate after 10 seconds 
+
+const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
+    clearArray(plateVar)
+    clearArray(receipeVar)
+    plateId.empty();
+    receipeID.empty();
+    receipeID.removeClass('blink');
+    minusScore();
+    generateDishes(receipeID, receipeVar, plateId, plateVar);
+
+
+}
+
+//warns user that time plate is going to expire 
+
+const warnuser = (receipeID) => {
+    receipeID.addClass('blink');
+}
+
 
 
 // Generate the types of dishes 
@@ -72,8 +100,19 @@ const findImageUrl = (receipe, receipeID) => {
     }
 };
 
+let timeOut = " ";
+let warnUserTimer = " ";
 
-const generateDishes = (receipeID, receipeVar) => {
+
+
+// setTimeout(function() {destroyPlate(receipeID, receipeVar,plateId,plateVar)},15000)
+// setTimeout(function() {warnuser(receipeID)},5000)
+function timedCount(receipeID, receipeVar, plateId, plateVar) {
+    timeout = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
+    warnUserTimer = setTimeout(function () { warnuser(receipeID) }, 5000)
+}
+
+const generateDishes = (receipeID, receipeVar, plateId, plateVar) => {
     let randomIndex = Math.floor(Math.random() * 3);
     let receipeInplay = burgerRecipe[randomIndex].ingredients
     receipeVar.push.apply(receipeVar, receipeInplay);
@@ -88,7 +127,17 @@ const generateDishes = (receipeID, receipeVar) => {
     })
     receipeID.append($mainImg);
     findImageUrl(receipeVar, receipeID);
+
+    timedCount(receipeID, receipeVar, plateId, plateVar)
+
 }
+
+
+function myStopFunction() {
+    clearTimeout(timeOut);
+    clearTimeout(warnUserTimer);
+}
+
 
 //match ingredients 
 
@@ -102,14 +151,16 @@ const matchingredients = (plateVar, receipeVar, plateId, receipeID) => {
     console.log(`on plate: ${plateVar}`);
     console.log(`in receipe: ${receipeVar}`);
     if (plateVar.sort().join(',') === receipeVar.sort().join(',')) {
-        clearArray(plateVar)
+        clearArray(plateVar);
         console.log(`on plate afterclearing: ${plateVar}`);
-        clearArray(receipeVar)
-        console.log(plateVar)
+        clearArray(receipeVar);
+        console.log(plateVar);
         plateId.empty();
         receipeID.empty();
         addScore();
-        generateDishes(receipeID, receipeVar);
+        myStopFunction();
+        receipeID.removeClass('blink');
+        generateDishes(receipeID, receipeVar, plateId, receipeID);
     }
 }
 
@@ -182,7 +233,7 @@ const startCountdown = () => {
     }, 1000);
 }
 
-//remove ingredients on plate
+//remove ingredients on plate [not working]
 
 const removeIngredients = () => {
     $(event.currentTarget).children().remove();
@@ -196,20 +247,19 @@ const endgame = () => {
 
 // change modal display to block 
 const openInstructionsmodal = () => {
-    $('#instructions-modal').css('display','block');
+    $('#instructions-modal').css('display', 'block');
 }
 
 const closeInstructionsmodal = () => {
-    $('#instructions-modal').css('display','none');
+    $('#instructions-modal').css('display', 'none');
 }
 
 const start = () => {
-    generateDishes($('#receipe1'), receipeOne);
-    setTimeout(generateDishes($('#receipe2'), receipeTwo),50000);
-    generateDishes($('#receipe3'), receipeThree);
+    generateDishes($('#receipe1'), receipeOne, $('#plates1'), plateOne);
+    setTimeout(function(){generateDishes($('#receipe2'), receipeTwo, $('#plates2'), plateTwo)}, 3000);
+    setTimeout(function(){generateDishes($('#receipe3'), receipeThree, $('#plates3'), plateThree)},5000);
     appendImage();
     dragObject();
-    $('.draggable').draggable("option", "addClasses", "dragged");
     dropObject($('#plates1'), plateOne, receipeOne, $('#receipe1'));
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
@@ -221,8 +271,8 @@ $(() => {
     $('#startGame').one('click', start)
     $('.plate').on('click', removeIngredients);
     $('.popuptext').on('click', endgame);
-    $('#instructions').on('click',openInstructionsmodal);
-    $('#close').on('click',closeInstructionsmodal);
+    $('#instructions').on('click', openInstructionsmodal);
+    $('#close').on('click', closeInstructionsmodal);
 });
 
 

@@ -42,14 +42,14 @@
 
 }
 
-/* .blink {
+.blink {
     animation: blink 1s linear infinite; 
 }
 @keyframes blink {
     from {background-color: white;}
     to {background-color: red;}
     {animation-direction: alternate-reverse}
-} */
+}
 
 .plates {
     display: inline-flex;
