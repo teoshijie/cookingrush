@@ -3,7 +3,7 @@ console.log('app connected!')
 let imageObjects = [
     {
         ingredient: "chicken",
-        url: "https://spoonacular.com/cdn/ingredients_100x100/whole-chicken.jpg"
+        url: "https://i.ibb.co/r6x4hC1/whole-chicken.png"
     },
     {
         ingredient: "cheese",
@@ -15,7 +15,7 @@ let imageObjects = [
     },
     {
         ingredient: "lettuce",
-        url: "https://spoonacular.com/cdn/ingredients_100x100/iceberg-lettuce.jpg"
+        url: "https://i.ibb.co/xgLq9gv/iceberg-lettuce.png"
     }
 ]
 
@@ -32,7 +32,7 @@ let burgerRecipe = [
     },
     {
         dish: 'Vegetarian Burger',
-        dishImage: "https://farm5.staticflickr.com/4900/46565460901_a2cd047abc.jpg",
+        dishImage: "https://i.ibb.co/KGJCTv0/vegesub.png",
         ingredients: ["cheese", "lettuce", "tomato"]
     },
     {
@@ -41,55 +41,45 @@ let burgerRecipe = [
         ingredients: ["cheese", "tomato", "chicken"]
     },
 ];
+//Array to store the current receipe that the player needs to cook 
+let receipeOne = [];
+let receipeTwo = [];
+let receipeThree = [];
 
-//Scoring function. If player gets a match, he will get 10 points 
+// Array to store the ingredients that is on the plate 
+let plateOne = [];
+let plateTwo = [];
+let plateThree = [];
+
+//Scoring function. If player gets a match, he will get 10 points. 
+// If he fails to complete the receipe in 15 seconds, he will be lose 4 points 
 let score = 0;
 
 const addScore = () => {
     $('#score').empty()
     score += 10
     $('#score').text(score)
+    console.log('addscore is running')
 }
 
 const minusScore = () => {
     $('#score').empty();
     score -= 4;
     $('#score').text(score);
+    console.log('minusscore is running')
 
 }
 
-let receipeOne = [];
-let receipeTwo = [];
-let receipeThree = [];
-
-let plateOne = [];
-let plateTwo = [];
-let plateThree = [];
-
-//destroy dishes on plate after 10 seconds 
-
-const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
-    clearArray(plateVar)
-    clearArray(receipeVar)
-    plateId.empty();
-    receipeID.empty();
-    receipeID.removeClass('blink');
-    minusScore();
-    generateDishes(receipeID, receipeVar, plateId, plateVar);
-
+const resetScore = () => {
+    $('#score').empty();
+    score = 0
+    $('#score').text(score);
+    console.log('resetscore is running')
 
 }
 
-//warns user that time plate is going to expire 
-
-const warnuser = (receipeID) => {
-    receipeID.addClass('blink');
-}
-
-
-
-// Generate the types of dishes 
-const findImageUrl = (receipe, receipeID) => {
+   // Generate ingredients 
+   const findImageUrl = (receipe, receipeID) => {
     for (let a = 0; a < receipe.length; a++) {
         for (let i = 0; i < imageObjects.length; i++) {
             if (imageObjects[i].ingredient === receipe[a]) {
@@ -98,182 +88,364 @@ const findImageUrl = (receipe, receipeID) => {
             }
         }
     }
+    console.log('find imageurl is running')
+
 };
 
-let timeOut = " ";
-let warnUserTimer = " ";
 
 
+    //destroy dishes on plate after 15 seconds 
 
-// setTimeout(function() {destroyPlate(receipeID, receipeVar,plateId,plateVar)},15000)
-// setTimeout(function() {warnuser(receipeID)},5000)
-function timedCount(receipeID, receipeVar, plateId, plateVar) {
-    timeout = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
-    warnUserTimer = setTimeout(function () { warnuser(receipeID) }, 5000)
-}
-
-const generateDishes = (receipeID, receipeVar, plateId, plateVar) => {
-    let randomIndex = Math.floor(Math.random() * 3);
-    let receipeInplay = burgerRecipe[randomIndex].ingredients
-    receipeVar.push.apply(receipeVar, receipeInplay);
-    console.log(receipeOne);
-    console.log(receipeTwo);
-    console.log(`receipe is ${receipeVar}`)
-
-    const $mainImg = $('<img>')
-    $mainImg.attr({
-        "id": "mainImg",
-        "src": burgerRecipe[randomIndex].dishImage,
-    })
-    receipeID.append($mainImg);
-    findImageUrl(receipeVar, receipeID);
-
-    timedCount(receipeID, receipeVar, plateId, plateVar)
-
-}
-
-
-function myStopFunction() {
-    clearTimeout(timeOut);
-    clearTimeout(warnUserTimer);
-}
-
-
-//match ingredients 
-
-function clearArray(array) {
-    while (array.length) {
-        array.pop();
-    }
-}
-
-const matchingredients = (plateVar, receipeVar, plateId, receipeID) => {
-    console.log(`on plate: ${plateVar}`);
-    console.log(`in receipe: ${receipeVar}`);
-    if (plateVar.sort().join(',') === receipeVar.sort().join(',')) {
-        clearArray(plateVar);
-        console.log(`on plate afterclearing: ${plateVar}`);
-        clearArray(receipeVar);
-        console.log(plateVar);
+    const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
+        clearArray(plateVar)
+        clearArray(receipeVar)
         plateId.empty();
         receipeID.empty();
-        addScore();
-        myStopFunction();
         receipeID.removeClass('blink');
-        generateDishes(receipeID, receipeVar, plateId, receipeID);
-    }
-}
+        minusScore();
+        //generate a new reeceipe
+        generateReceipe(receipeID, receipeVar, plateId, plateVar);
+        console.log('destroyPlate is running')
 
-//Generate draggable ingredients 
-const appendImage = () => {
-    for (let i = 0; i < imageObjects.length; i++) {
-        const draggableDiv = $('<div>').addClass('draggable').attr('id', imageObjects[i].ingredient);
-        const imageIng = $('<img>').attr('src', imageObjects[i].url).addClass('eachIngredient');
-        draggableDiv.append(imageIng);
-        $('.ingredients').append(draggableDiv);
     }
 
-}
+    //warns user that the receipe is going to expire 
 
-const dragObject = () => {
-    $('.draggable').draggable({
-        helper: 'clone',
-        disabled: false,
-    });
-}
+    const warnuser = (receipeID) => {
+        receipeID.addClass('blink');
+    }
+    let timeOut1;
+    let timeOut2;
+    let timeOut3;
 
-const dropObject = (plateId, plateVar, receipeVar, receipeID) => {
-    plateId.droppable(
-        {
-            accept: '.draggable',
-            //     classes: {
-            //         "ui-droppable": "highlight"
-            //       },
-            drop: function (event, ui) {
-                const droppedItem = $(ui.draggable).clone()
-                $(this).addClass("dropped")
-                plateId.append(droppedItem);
-                const droppedItemId = $(ui.draggable).get(0).id
-                plateVar.push(droppedItemId);
-                console.log(`dropped on plate: ${plateVar} `)
-                console.log(`before going to match functions ${receipeVar}`);
-                console.log(droppedItemId);
-                matchingredients(plateVar, receipeVar, plateId, receipeID);
-            },
-            over: function (event, ui) {
+    let warnUserTimer1;
+    let warnUserTimer2;
+    let warnUserTimer3;
 
+
+// timedEvent1 
+
+    function timedEvent1(receipeID, receipeVar, plateId, plateVar,) {
+        timeOut1 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
+        warnUserTimer1 = setTimeout(function () { warnuser(receipeID) }, 10000)
+        console.log(timedEvent1)
+    }
+
+    function myStopFunction1() {
+        clearTimeout(timeOut1);
+        clearTimeout(warnUserTimer1);
+    }
+//timedEvent2 
+    function timedEvent2(receipeID, receipeVar, plateId, plateVar,) {
+        timeOut2 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
+        warnUserTimer2 = setTimeout(function () { warnuser(receipeID) }, 10000)
+
+    }
+
+    function myStopFunction2() {
+        clearTimeout(timeOut2);
+        clearTimeout(warnUserTimer2);
+    }
+//timedEvent3 
+    function timedEvent3(receipeID, receipeVar, plateId, plateVar,) {
+        timeOut3 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
+        warnUserTimer3 = setTimeout(function () { warnuser(receipeID) }, 10000)
+
+    }
+
+    function myStopFunction3() {
+        clearTimeout(timeOut3);
+        clearTimeout(warnUserTimer2);
+    }
+
+    // controlIndex is used to stop generateReceipe function when the game has ended. 
+    let controlIndex = 1
+
+    const generateReceipe = (receipeID, receipeVar, plateId, plateVar) => {
+        if (controlIndex == 1) {
+            let randomIndex = Math.floor(Math.random() * 3);
+            let receipeInplay = burgerRecipe[randomIndex].ingredients
+            receipeVar.push.apply(receipeVar, receipeInplay);
+
+            console.log(`receipe is ${receipeVar}`)
+
+            const $mainImg = $('<img>')
+            $mainImg.attr({
+                "id": "mainImg",
+                "src": burgerRecipe[randomIndex].dishImage,
+            })
+            receipeID.append($mainImg);
+            findImageUrl(receipeVar, receipeID);
+
+            if (receipeID.is($('#receipe1'))) {
+                timedEvent1(receipeID, receipeVar, plateId, plateVar);
             }
-        })
-}
+            else if (receipeID.is($('#receipe2'))) {
+                timedEvent2(receipeID, receipeVar, plateId, plateVar);
+            }
+            else if (receipeID.is($('#receipe3'))) {
+                timedEvent3(receipeID, receipeVar, plateId, plateVar);
+            }
 
-const disableDraggable = () => {
-    $(".draggable").draggable({
-        disabled: true
-    });
-}
+            // timeOut(receipeID, receipeVar, plateId, plateVar, timeoutVar, warnUserTimerVar)
+            // console.log(timeOut1)
+            // console.log(warnUserTimer1)
+            // console.log('generatereceip is running')
 
-const disableDraggableevent = (number) => {
-    setTimeout(disableDraggable, number)
-}
+        }
+        else if (controlIndex == 2) {
+            return
+        }
+
+    }
+    //match ingredients 
+
+    function clearArray(array) {
+        while (array.length) {
+            array.pop();
+        }
+    }
+
+    const matchingredients = (plateVar, receipeVar, plateId, receipeID,) => {
+        console.log(`on plate: ${plateVar}`);
+        console.log(`in receipe: ${receipeVar}`);
+        if (plateVar.sort().join(',') === receipeVar.sort().join(',')) {
+            clearArray(plateVar);
+            console.log(`on plate afterclearing: ${plateVar}`);
+            clearArray(receipeVar);
+            console.log(plateVar);
+            plateId.empty();
+            receipeID.empty();
+            addScore();
+            if (receipeID.is($('#receipe1'))) {
+                myStopFunction1();
+            }
+            else if (receipeID.is($('#receipe2'))) {
+                myStopFunction2();
+            }
+            else if (receipeID.is($('#receipe3'))) {
+                myStopFunction3();
+            }
+            receipeID.removeClass('blink');
+            generateReceipe(receipeID, receipeVar, plateId, receipeID);
+            console.log('matchingredient is running')
+
+        }
+    }
+
+    //Generate draggable ingredients 
+    const appendImage = () => {
+        for (let i = 0; i < imageObjects.length; i++) {
+            const draggableDiv = $('<div>').addClass('draggable').attr('id', imageObjects[i].ingredient);
+            const imageIng = $('<img>').attr('src', imageObjects[i].url).addClass('eachIngredient');
+            draggableDiv.append(imageIng);
+            $('.ingredients').append(draggableDiv);
+        }
+        console.log('appendimage is running')
+
+    }
+
+    const dragObject = () => {
+        $('.draggable').draggable({
+            helper: 'clone',
+            disabled: false,
+        });
+    }
+
+    const dropObject = (plateId, plateVar, receipeVar, receipeID, timeoutVar, warnUserTimerVar) => {
+        plateId.droppable(
+            {
+                accept: '.draggable',
+                disabled: false,
+                //     classes: {
+                //         "ui-droppable": "highlight"
+                //       },
+                drop: function (event, ui) {
+                    const droppedItem = $(ui.draggable).clone();
+                    droppedItem.addClass('dropped');
+                    plateId.append(droppedItem);
+                    const droppedItemId = $(ui.draggable).get(0).id;
+                    plateVar.push(droppedItemId);
+                    console.log(`dropped on plate: ${plateVar} `)
+                    console.log(`before going to match functions ${receipeVar}`);
+                    console.log(droppedItemId);
+                    // redoButton(plateVar, plateId);
+                    matchingredients(plateVar, receipeVar, plateId, receipeID, timeoutVar, warnUserTimerVar);
+                }
+            })
+        console.log('drop is running')
+
+    }
+
+    const disableDraggable = () => {
+        $(".draggable").draggable({
+            disabled: true
+        });
+    }
+
+    const disableDroppable = () => {
+        $("#plates1, #plates2, #plates3").droppable({
+            disabled: true
+        });
+    }
+
+    const disableDraggableevent = (number) => {
+        setTimeout(disableDraggable, number)
+    }
 
 
-// timer 
-let counter = 100;
+    // timer 
+    let counter = 20;
 
-const countdown = () => {
-    counter--;
-    if (counter >= 0) {
+    const countdown = () => {
+        counter--;
+        if (counter >= 0) {
+            $('#timer').text(counter)
+        }
+
+    }
+    let timer;
+    const startCountdown = () => {
+        timer = setInterval(() => {
+            countdown();
+        }, 1000);
+    }
+
+    // const countDownEnd = () => {
+    //     if (counter == 0) {
+    //         endgame();
+    //     }
+    // }
+
+
+    const resetCounter = () => {
+        $('#timer').empty()
+        counter = 20
         $('#timer').html(counter)
     }
-}
 
-const startCountdown = () => {
-    setInterval(() => {
-        countdown();
-    }, 1000);
-}
 
-//remove ingredients on plate [not working]
+    //try
+    const tryAgain = () => {
+        controlIndex = 1
 
-const removeIngredients = () => {
-    $(event.currentTarget).children().remove();
-    console.log($event.currentTarget);
-}
+        $('#gameover-modal').css('display', 'none');
+        $('#instructions').on('click', openInstructionsmodal);
+        $('#close').on('click', closeInstructionsmodal);
+        resetScore();
+        resetCounter();
+        start();
 
-const endgame = () => {
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-}
+    }
 
-// change modal display to block 
-const openInstructionsmodal = () => {
-    $('#instructions-modal').css('display', 'block');
-}
+    // highscore.push(score);
+    // localStorage.setItem(key, score);
+    // let key = 'game_highscore';
 
-const closeInstructionsmodal = () => {
-    $('#instructions-modal').css('display', 'none');
-}
+    // const maxHighScore = 5 ;
 
-const start = () => {
-    generateDishes($('#receipe1'), receipeOne, $('#plates1'), plateOne);
-    setTimeout(function(){generateDishes($('#receipe2'), receipeTwo, $('#plates2'), plateTwo)}, 3000);
-    setTimeout(function(){generateDishes($('#receipe3'), receipeThree, $('#plates3'), plateThree)},5000);
-    appendImage();
-    dragObject();
-    dropObject($('#plates1'), plateOne, receipeOne, $('#receipe1'));
-    dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
-    dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
-    startCountdown();
-    disableDraggableevent(100000);
-}
 
-$(() => {
-    $('#startGame').one('click', start)
-    $('.plate').on('click', removeIngredients);
-    $('.popuptext').on('click', endgame);
-    $('#instructions').on('click', openInstructionsmodal);
-    $('#close').on('click', closeInstructionsmodal);
-});
+    let highScores = [];
+    // localStorage.setItem('highScores', JSON.stringify(highScores))
+
+    // const saveScore = (score) => {
+    //     highScores.push(score)
+    //     // highScores.sort((a,b) => {
+    //     //     return b.score - a.score
+    //     // })
+    //     // highScores.splice(5)
+    // }
+    // localStorage.setItem('highScores', JSON.stringify(highScores));
+    //endgame 
+
+    const saveScoreToLocalStorage = () => {
+        let existing = JSON.parse(localStorage.getItem('highScores'));
+
+        existing.push(score);
+        localStorage.setItem('highScores', JSON.stringify(existing));
+    }
+
+    const endgameModal = (score) => {
+        $('#gameover-modal').css('display', 'block');
+        $('#gameovertext').text(`Game Over! Your score is ${score}`)
+    }
+    const endgame = () => {
+
+        saveScoreToLocalStorage();
+        endgameModal(score);
+        clearInterval(timer);
+        controlIndex = 2
+        receipeOne.length = 0;
+        receipeTwo.length = 0;
+        receipeThree.length = 0;
+        plateOne.length = 0;
+        plateTwo.length = 0;
+        plateThree.length = 0;
+        $('.plate').empty();
+        $('.receipes').empty();
+        $('.receipes').removeClass('blink');
+        $('.ingredients').empty()
+        // saveScore(score);
+        myStopFunction();
+        disableDraggable();
+        disableDroppable();
+
+    }
+
+    //redo button 
+
+    const redoButton = (plateVar, plateId) => {
+        clearArray(plateVar)
+        plateId.empty()
+    }
+
+    // change modal display to block 
+    const openInstructionsmodal = () => {
+        $('#instructions-modal').css('display', 'block');
+    }
+
+    const closeInstructionsmodal = () => {
+        $('#instructions-modal').css('display', 'none');
+    }
+
+    const start = () => {
+
+        generateReceipe($('#receipe1'), receipeOne, $('#plates1'), plateOne);
+        setTimeout(endgame, 100000);
+        setTimeout(function () { generateReceipe($('#receipe2'), receipeTwo, $('#plates2'), plateTwo) }, 3000);
+        setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 5000);
+        appendImage();
+        dragObject();
+        dropObject($('#plates1'), plateOne, receipeOne, $('#receipe1'));
+        dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
+        dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
+        startCountdown();
+        $('#startGame').off('click')
+
+    }
+
+
+    $(() => {
+        $('#startGame').on('click', start)
+        $('#instructions').on('click', openInstructionsmodal);
+        $('#close').on('click', closeInstructionsmodal);
+        $('#tryagain').on('click', tryAgain);
+        $('#redo1').on('click', function () {
+            clearArray(plateOne);
+            $('#plates1').empty();
+        })
+        $('#redo2').on('click', function () {
+            clearArray(plateTwo);
+            $('#plates2').empty();
+        })
+        $('#redo3').on('click', function () {
+            clearArray(plateThree);
+            $('#plates3').empty();
+        })
+
+        // generatePlate();
+
+    });
 
 
     // $('#startGame').on('click', (event) => {

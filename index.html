@@ -7,8 +7,7 @@
     <title>Cooking Game</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-			  crossorigin="anonymous"></script>
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="app.js" charset="utf-8"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,42 +15,66 @@
 <body>
     <div class="frame">
         <div class="flex-container">
-        <div class="siderbarui">
-            <button type="button" id="startGame">Start Game</button>
-            <button type="button" id="instructions">Instructions</button>
-            <div id="instructions-modal">
-                <div id="instructions-textbox">
-                  <a id="close" href="#">Close</a>
-                  <h1>How to play?</h1>
+            <div class="siderbarui">
+                <button type="button" id="startGame">Start Game</button>
+                <button type="button" id="instructions">Instructions</button>
+                <div id="instructions-modal">
+                    <div id="instructions-textbox">
+                        <a id="close" href="#">Close</a>
+                        <p>How to play?</p>
+                        <p>Drag and drop the ingredients to the corresponding receipt above!</p>
+                    </div>
+                </div>
+                <button type="button" id="highScore">High Score</button>
+                <div id="highScore-modal">
+                <div id="highScore-textbox">
+                    <a id="close" href="#">Close</a>
+                    <p>How to play?</p>
                     <p>Drag and drop the ingredients to the corresponding receipt above!</p>
                 </div>
-              </div>
-            <p id= "timer">150</p>
-            <p id= "score">0</p>
-        </div>
-        <div class= "game">
-        <div class="receipe">
-            <div id="receipe1" class= "receipes"> </div>
-            <div id="receipe2"  class= "receipes"> </div>
-            <div id="receipe3" class= "receipes" > </div>
-        </div> 
-        <div class="plates">
-            <div id = "plates1" class= "plate"> </div>
-            <div id = "plates2" class= "plate"> </div>
-            <div id = "plates3" class= "plate"> </div>
-            <!-- <img src="https://i.ibb.co/WBw78Nx/plate.jpg" id= "plates1" class = "plate" alt="plate" width= "150px" height="150px">
-            <img src="https://i.ibb.co/WBw78Nx/plate.jpg" id= "plates2" class = "plate" alt="plate" width= "150px" height="150px">
-            <img src="https://i.ibb.co/WBw78Nx/plate.jpg" id= "plates3" class = "plate" alt="plate" width= "150px" height="150px"> -->
-        </div>
-        <div class="ingredients">
+            </div>
+                <div class='timerbox'>
+                    <p id="timer">100</p>
+                    <p id="seconds">Seconds</p>
+                </div>
+                <p id="score">0</p>
+            </div>
+            <div class="game">
+                <div class="receipe">
+                    <div id="receipe1" class="receipes"> </div>
+                    <div id="receipe2" class="receipes"> </div>
+                    <div id="receipe3" class="receipes"> </div>
+                </div>
+                <div class="plates">
+                    <div class='outer circle shaperborder'>
+                        <div id="plates1" class="plate inner circle shaperborder"> </div>
+                    </div>
 
+                    <div class='outer circle shaperborder'>
+                        <div id="plates2" class="plate inner circle shaperborder"> </div>
+                    </div>
+                    <div class='outer circle shaperborder'>
+                        <div id="plates3" class="plate inner circle shaperborder"> </div>
+                    </div>
+                </div>
+                <div class="redobutton">
+                    <button type="button" class="redo" id="redo1">Redo</button>
+                    <button type="button" class="redo" id="redo2">Redo</button>
+                    <button type="button" class="redo" id="redo3">Redo</button>
+                </div>
+                <div class="ingredients">
+
+                </div>
+
+            </div>
+        </div>
+        <div id="gameover-modal">
+            <div id="gameovertextbox">
+                <p id="gameovertext"></p>
+                <button type="button" id="tryagain">Try Again</button>
+            </div>
         </div>
     </div>
-    </div>
-    </div>
-    <div class="popup"></div>
-        <p class="popuptext" id="myPopup"> sfdf</p>
-      </div> 
 </body>
 
 </html>
