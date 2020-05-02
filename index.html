@@ -25,12 +25,11 @@
                         <p>Drag and drop the ingredients to the corresponding receipt above!</p>
                     </div>
                 </div>
-                <button type="button" id="highScore">High Score</button>
+                <button type="button" class="highScore">High Score</button>
                 <div id="highScore-modal">
                 <div id="highScore-textbox">
-                    <a id="close" href="#">Close</a>
-                    <p>How to play?</p>
-                    <p>Drag and drop the ingredients to the corresponding receipt above!</p>
+                    <a id="closeHighScore" href="#">Close</a>
+                    <ul id= "scores">High Score</ul>
                 </div>
             </div>
                 <div class='timerbox'>
@@ -63,7 +62,6 @@
                     <button type="button" class="redo" id="redo3">Redo</button>
                 </div>
                 <div class="ingredients">
-
                 </div>
 
             </div>
@@ -71,7 +69,10 @@
         <div id="gameover-modal">
             <div id="gameovertextbox">
                 <p id="gameovertext"></p>
+                <p id="joke"></p>
+
                 <button type="button" id="tryagain">Try Again</button>
+                <button type="button" id="tryagainScore" class="highScore">High Score</button>
             </div>
         </div>
     </div>

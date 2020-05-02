@@ -23,7 +23,7 @@
 }
 
 /* instructions modal */
-#gameover-modal, #instructions-modal {
+#gameover-modal, #instructions-modal{
     background-color: rgba(0,0,0,0.4);
     display: none; 
 	position: fixed;
@@ -35,24 +35,43 @@
 	overflow: auto;
   }
 
+
 #instructions-textbox {
+    font-size: larger;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
     background-color: white;
 	height: 420px;
 	width: 800px;
 	border-radius: 2px;
 	margin: 100px 100px;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px rgba(245, 245, 245, 0.2);
 }
 
-#tryagain {
-    position:absolute;;
-}
+#highScore-modal {
+    background-color: rgba(0,0,0,0.4);
+    display: none; 
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 80%;
+	width: 100%;
+	z-index: 2;
+	overflow: auto;
+  }
 
- #instructions-textbox {
+#highScore-textbox {
     font-size: larger;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
+    background-color: white;
+	height: 420px;
+	width: 800px;
+	border-radius: 2px;
+	margin: 100px 100px;
+    box-shadow: 0 2px 2px rgba(245, 245, 245, 0.2);
 }
+
 
 /*Flexbox surround timer */
 .timerbox {
@@ -215,7 +234,7 @@ button {
     height: 50px;
 }
 
-
+/*gameover modal */
 #gameovertextbox {
     background-color: white;
 	height: 350px;
@@ -223,6 +242,10 @@ button {
 	border-radius: 2px;
 	margin: 100px 100px;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#tryagain {
+    position:absolute;;
 }
 
 #gameovertext {
@@ -264,4 +287,13 @@ button {
 .eachIngredient {
 
     cursor: pointer;
+}
+
+.list {
+    color: black;
+    font-size: larger;
+}
+
+#tryagainScore {
+    margin-top: 50px;
 }
