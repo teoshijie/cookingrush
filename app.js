@@ -486,7 +486,7 @@ const closeHighScoreModal = () => {
 const start = () => {
 
     generateReceipe($('#receipe1'), receipeOne, $('#plates1'), plateOne);
-    setTimeout(endgame, 100000);
+    setTimeout(endgame, 10000);
     setTimeout(function () { generateReceipe($('#receipe2'), receipeTwo, $('#plates2'), plateTwo) }, 3000);
     setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 6000);
     appendImage();
