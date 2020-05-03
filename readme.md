@@ -6,7 +6,8 @@ Cooking rush is a timed game whereby users have to prepare dishes based on the r
 
 Receipes will be displayed on the top row. When the start button is pressed, only the one receipe will be generated for user to get comfortable with the game. The second receipe will be generated 3 seconds later and the 3rd receipe another 3 seconds later. 
 
-Players will drag the corresponding ingredients at the bottom row to the plates on the middle row. Once the ingredients on the plate matches the receipe, player gets 10 pointss. 
+Players will drag the corresponding ingredients at the bottom row to the plates on the middle row. Once the ingredients on the plate matches the receipe, player gets 10 points. 
+<br/><br/>
 ![Alt Text](https://media.giphy.com/media/JSeKMhr03G7kvA80Bt/giphy.gif)
 
 
