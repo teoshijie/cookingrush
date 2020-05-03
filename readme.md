@@ -2,6 +2,10 @@
 
 Cooking rush is a timed game whereby users have to prepare dishes based on the receipes provided within a set time. If player failed to do so, points will be deducted. 
 
+# Project Demo 
+
+https://teoshijie.github.io/repo/#
+
 # Game Mechanic
 
 Receipes will be displayed on the top row. When the start button is pressed, only the one receipe will be generated for user to get comfortable with the game. The second receipe will be generated 3 seconds later and the 3rd receipe another 3 seconds later. 
