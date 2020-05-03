@@ -89,7 +89,7 @@ Animation can be added to further enhance game experience.
 
 The CCS for the modals could be better. 
 
-Lastly, the code organisation can be improved. Code can be refactored using higher order functions to make the code shorter and more "DRY". 
+Lastly, the code organisation can be improved. Code can be refactored using higher order functions to make the code shorter and more "DRY". On hindset, I should commited more often. 
 
 The beeping sound dont synchronise very well with setTimeout and sometimes there is no sound. 
 
