@@ -412,7 +412,7 @@ const updateHighScoreBoard = () => {
 
 
 const saveScoreToLocalStorage = () => {
-    let existing = JSON.parse(localStorage.getItem('highScores'));
+    let existing = JSON.parse(localStorage.getItem('highScores')) || [];
 
     existing.push(score);
     localStorage.setItem('highScores', JSON.stringify(existing));
