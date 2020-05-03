@@ -39,6 +39,7 @@ This project is designed to incorporate various concepts taught in class and att
 ![Alt Text](https://i.ibb.co/RgGVYTf/rushmain.png)
 
 * JQUERY UI library to make the ingredients draggable.
+<br> </br>
 ![Alt Text](https://media.giphy.com/media/fWqGVdSr1ThqIoakwN/giphy.gif)
 
 * Local storaage for storing highscores
