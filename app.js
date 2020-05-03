@@ -354,11 +354,6 @@ const resetCounter = () => {
     $('#timer').html(counter)
 }
 
-const executeEndgame = () => {
-    if (timer === 0) {
-        endgame();
-    }
-}
 
 //Generate Random Trivia 
 
@@ -460,6 +455,13 @@ const endgame = () => {
     disableDroppable();
 
 }
+
+const executeEndgame = () => {
+    if (counter === 0) {
+        endgame();
+    }
+}
+
 
 //If player put the wrong ingredient on the plate, he is able to clear the plate
 
