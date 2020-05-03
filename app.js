@@ -66,23 +66,18 @@ const addScore = () => {
     $('#score').empty()
     score += 10
     $('#score').text(score)
-    console.log('addscore is running')
 }
 
 const minusScore = () => {
     $('#score').empty();
     score -= 4;
     $('#score').text(score);
-    console.log('minusscore is running')
-
 }
 
 const resetScore = () => {
     $('#score').empty();
     score = 0
     $('#score').text(score);
-    console.log('resetscore is running')
-
 }
 
 //sound effects
@@ -107,8 +102,6 @@ const findImageUrl = (receipeVar, receipeID) => {
             }
         }
     }
-    console.log('find imageurl is running')
-
 };
 
 let timeOut1;
@@ -138,7 +131,6 @@ const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
     minusScore();
     //generate a new reeceipe
     generateReceipe(receipeID, receipeVar, plateId, plateVar);
-    console.log('destroyPlate is running')
 
 }
 
@@ -155,7 +147,6 @@ const warnuser = (receipeID) => {
 function timedEvent1(receipeID, receipeVar, plateId, plateVar, ) {
     timeOut1 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 10000)
     warnUserTimer1 = setTimeout(function () { warnuser(receipeID) }, 6000)
-    console.log(timedEvent1)
 }
 
 function myStopFunction1() {
@@ -206,8 +197,6 @@ const generateReceipe = (receipeID, receipeVar, plateId, plateVar) => {
         let randomIndex = Math.floor(Math.random() * 4);
         let receipeInplay = burgerRecipe[randomIndex].ingredients
         receipeVar.push.apply(receipeVar, receipeInplay);
-
-        console.log(`receipe is ${receipeVar}`)
 
         const $mainImg = $('<img>')
         $mainImg.attr({
@@ -302,14 +291,9 @@ const dropObject = (plateId, plateVar, receipeVar, receipeID, timeoutVar, warnUs
                 plateId.append(droppedItem);
                 const droppedItemId = $(ui.draggable).get(0).id;
                 plateVar.push(droppedItemId);
-                console.log(`dropped on plate: ${plateVar} `)
-                console.log(`before going to match functions ${receipeVar}`);
-                console.log(droppedItemId);
-                // redoButton(plateVar, plateId);
                 matchingredients(plateVar, receipeVar, plateId, receipeID, timeoutVar, warnUserTimerVar);
             }
         })
-    console.log('drop is running')
 
 }
 
@@ -347,7 +331,6 @@ const generateTrivia = () => {
     }).then(
         (data)=>{
             $('#trivia').html(data.text);
-            console.log(data.text)
         },
         ()=>{
             console.log('bad');
@@ -376,14 +359,12 @@ const updateHighScoreArray = () => {
     let currentHighScores = JSON.parse(localStorage.getItem('highScores'));
     let allscores = Object.values(currentHighScores);
     let sortScores = allscores.sort((a, b) => b - a); 
-    console.log(sortScores)
     highScores = sortScores.slice(0,5)
     updateHighScoreBoard();
 }
 
 const updateHighScoreBoard = () => {
     $('li').remove();
-    console.log(highScores[0]);
     for (let i = 0; i < highScores.length; i++) {
         const newlist = $('<li>').text(highScores[i]).addClass('list');
         $('#scores').append(newlist);
@@ -441,7 +422,6 @@ let counter = 100;
 
 const countdown = () => {
     counter --
-    console.log(counter);
     if (counter >= 0) {
         $('#timer').text(counter)
     }
@@ -463,6 +443,7 @@ const resetCounter = () => {
     counter = 100
     $('#timer').html(counter)
 }
+
 
 //If player put the wrong ingredient on the plate, he is able to clear the plate
 

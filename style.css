@@ -224,6 +224,10 @@ button {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+#trivia {
+    font-size: larger;
+}
+
 .shapeborder {
     border:1px solid black
 }
