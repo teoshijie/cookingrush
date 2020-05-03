@@ -366,7 +366,7 @@ const generateTrivia = () => {
         url: `https://api.spoonacular.com/food/trivia/random?apiKey=${apiKey}`
     }).then(
         (data)=>{
-            $('#joke').html(data.text);
+            $('#trivia').html(data.text);
             console.log(data.text)
         },
         ()=>{
