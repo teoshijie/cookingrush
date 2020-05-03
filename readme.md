@@ -18,7 +18,7 @@ Players will drag the corresponding ingredients at the bottom row to the plates 
 If the player fails to complete the receipe within 10 seconds, he will be deducted 4 points. 
 When the palyer is left with 4 seconds, he will be warned with a blinking red background animation. 
 
-[![N|Solid](https://media.giphy.com/media/JmJ7dCIg8gztQcyU33/giphy.gif)
+[![N|Solid](https://media.giphy.com/media/lShHXrsR8Sk1OSh8Dv/giphy.gif)
 
 # Project Scope and Approach
 ![Alt Text](https://i.ibb.co/z8VZ4XY/main.jpg)
