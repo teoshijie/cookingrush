@@ -464,13 +464,6 @@ const resetCounter = () => {
     $('#timer').html(counter)
 }
 
-// const executeEndgame = () => {
-//     if (counter == 0) {
-//         endgame();
-//     }
-// }
-
-
 //If player put the wrong ingredient on the plate, he is able to clear the plate
 
 const redoButton = (plateVar, plateId) => {
@@ -510,8 +503,6 @@ const start = () => {
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
-    // executeEndgame();
-    // setTimeout(endgame, 102000);
     $('#startGame').off('click')
 }
 
