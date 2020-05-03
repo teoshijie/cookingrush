@@ -456,13 +456,6 @@ const endgame = () => {
 
 }
 
-const executeEndgame = () => {
-    if (counter === 0) {
-        endgame();
-    }
-}
-
-
 //If player put the wrong ingredient on the plate, he is able to clear the plate
 
 const redoButton = (plateVar, plateId) => {
@@ -494,7 +487,6 @@ const closeHighScoreModal = () => {
 const start = () => {
 
     generateReceipe($('#receipe1'), receipeOne, $('#plates1'), plateOne);
-    // setTimeout(endgame, 102000);
     setTimeout(function () { generateReceipe($('#receipe2'), receipeTwo, $('#plates2'), plateTwo) }, 3000);
     setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 6000);
     appendImage();
@@ -503,6 +495,7 @@ const start = () => {
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
+    setTimeout(endgame, 102000);
     executeEndgame();
     $('#startGame').off('click')
 }
