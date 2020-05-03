@@ -40,8 +40,8 @@
     font-size: larger;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    background-color: white;
-	height: 420px;
+    background-image: url(images/background.png);
+	height: 600px;
 	width: 800px;
 	border-radius: 2px;
 	margin: 100px 100px;
@@ -64,7 +64,7 @@
     font-size: larger;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    background-color: white;
+    background-image: url(images/background.png);
 	height: 420px;
 	width: 800px;
 	border-radius: 2px;
@@ -236,7 +236,7 @@ button {
 
 /*gameover modal */
 #gameovertextbox {
-    background-color: white;
+    background-image: url(images/background.png);
 	height: 350px;
 	width: 550px;
 	border-radius: 2px;
@@ -296,4 +296,34 @@ button {
 
 #tryagainScore {
     margin-top: 50px;
+}
+
+ul li:nth-child(1){
+    list-style-image:url('images/1mario.png');
+    }
+    ul li:nth-child(2){
+    list-style-image:url('images/2pikachu.png');
+    }
+    ul li:nth-child(3){
+    list-style-image:url('images/3mushroom.png');
+    }
+    ul li:nth-child(4){
+    list-style-image:url('images/4angry\ birds.png');
+    }
+    ul li:nth-child(5){
+    list-style-image:url('images/5worms.png');
+    }
+
+ul  {
+        font-size: large;
+        padding: 0px;
+
+    }
+
+li {
+    margin-top: 10px;
+    margin-left: 100px;
+    left: -100px;
+    font-size: medium;
+    padding: 0px
 }

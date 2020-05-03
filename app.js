@@ -1,5 +1,4 @@
 console.log('app connected!')
-const FOODAPI = 'https://api.spoonacular.com/food/jokes/random?apiKey=${apiKey}';
 
 let imageObjects = [
     {
@@ -41,7 +40,14 @@ let burgerRecipe = [
         dishImage: "https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg",
         ingredients: ["cheese", "tomato", "chicken"]
     },
+    {
+        dish: 'Chicken Tomato Burger',
+        dishImage: "https://www.ambitiouskitchen.com/wp-content/uploads/2016/07/chickenburgers-2.jpg",
+        ingredients: ["tomato", "chicken"]
+    },
 ];
+
+
 //Array to store the current receipe that the player needs to cook 
 let receipeOne = [];
 let receipeTwo = [];
@@ -79,11 +85,23 @@ const resetScore = () => {
 
 }
 
-// Generate ingredients 
-const findImageUrl = (receipe, receipeID) => {
-    for (let a = 0; a < receipe.length; a++) {
+//sound effects
+
+const playEffect = (ID) => {
+    ID[0].play()
+}
+
+
+
+/**
+ * retrive access the ingredients for each receipe and retrive the images from imageObjects. 
+ * @param {receipeOne,receipeTwo,receipeThree} receipeVar 
+ * @param {Jquery receipe ID} receipeID 
+ */
+const findImageUrl = (receipeVar, receipeID) => {
+    for (let a = 0; a < receipeVar.length; a++) {
         for (let i = 0; i < imageObjects.length; i++) {
-            if (imageObjects[i].ingredient === receipe[a]) {
+            if (imageObjects[i].ingredient === receipeVar[a]) {
                 let ingredientImage = $('<img>').attr('src', imageObjects[i].url).addClass('ingredientimage')
                 receipeID.append(ingredientImage);
             }
@@ -93,11 +111,25 @@ const findImageUrl = (receipe, receipeID) => {
 
 };
 
+let timeOut1;
+let timeOut2;
+let timeOut3;
 
+let warnUserTimer1;
+let warnUserTimer2;
+let warnUserTimer3;
+//Create a timed event whereby users have 10 seconds to make the receipe. If user fail, 4 points will be deducted.
+// When 4 seconds is left, there will be beep sound and the receipe will flash red.  
 
-//destroy dishes on plate after 15 seconds 
-
+/**
+ * If user failed to make the receipe after 10 seconds clearplate, deduct score and trigger sound effect
+ * @param {Jquery receipe ID} receipeID 
+ * @param {receipeOne,receipeTwo,receipeThree} receipeVar 
+ * @param {Jquery plate ID} plateId 
+ * @param {plateOne,plateTwo, plateThree} plateVar 
+ */
 const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
+    playEffect($('audio#destroyed'))
     clearArray(plateVar)
     clearArray(receipeVar)
     plateId.empty();
@@ -114,21 +146,15 @@ const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
 
 const warnuser = (receipeID) => {
     receipeID.addClass('blink');
+    playEffect($('audio#alert'))
 }
-let timeOut1;
-let timeOut2;
-let timeOut3;
 
-let warnUserTimer1;
-let warnUserTimer2;
-let warnUserTimer3;
+//  Create a timedEvent and a corresponding cleartimeout for each columns. 
 
-
-// timedEvent1 
-
+//timedEvent 1
 function timedEvent1(receipeID, receipeVar, plateId, plateVar, ) {
-    timeOut1 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
-    warnUserTimer1 = setTimeout(function () { warnuser(receipeID) }, 10000)
+    timeOut1 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 10000)
+    warnUserTimer1 = setTimeout(function () { warnuser(receipeID) }, 6000)
     console.log(timedEvent1)
 }
 
@@ -136,10 +162,11 @@ function myStopFunction1() {
     clearTimeout(timeOut1);
     clearTimeout(warnUserTimer1);
 }
+
 //timedEvent2 
 function timedEvent2(receipeID, receipeVar, plateId, plateVar, ) {
-    timeOut2 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
-    warnUserTimer2 = setTimeout(function () { warnuser(receipeID) }, 10000)
+    timeOut2 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 10000)
+    warnUserTimer2 = setTimeout(function () { warnuser(receipeID) }, 6000)
 
 }
 
@@ -147,24 +174,36 @@ function myStopFunction2() {
     clearTimeout(timeOut2);
     clearTimeout(warnUserTimer2);
 }
+
 //timedEvent3 
 function timedEvent3(receipeID, receipeVar, plateId, plateVar, ) {
-    timeOut3 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 15000)
-    warnUserTimer3 = setTimeout(function () { warnuser(receipeID) }, 10000)
+    timeOut3 = setTimeout(function () { destroyPlate(receipeID, receipeVar, plateId, plateVar) }, 10000)
+    warnUserTimer3 = setTimeout(function () { warnuser(receipeID) }, 6000)
 
 }
 
 function myStopFunction3() {
     clearTimeout(timeOut3);
-    clearTimeout(warnUserTimer2);
+    clearTimeout(warnUserTimer3);
 }
 
-// controlIndex is used to stop generateReceipe function when the game has ended. 
+
+
+// controlIndex is used to stop generateReceipe function from running when the game has ended. 
 let controlIndex = 1
+/**
+ * Generate receipe and append images to each receipeID 
+ * push ingredients into each a receipeVar 
+ * Call timedevent to start countdown 
+ * @param {Jquery receipe ID} receipeID 
+ * @param {receipeOne,receipeTwo,receipeThree} receipeVar 
+ * @param {Jquery plate ID} plateId 
+ * @param {plateOne,plateTwo, plateThree} plateVar 
+ */
 
 const generateReceipe = (receipeID, receipeVar, plateId, plateVar) => {
     if (controlIndex == 1) {
-        let randomIndex = Math.floor(Math.random() * 3);
+        let randomIndex = Math.floor(Math.random() * 4);
         let receipeInplay = burgerRecipe[randomIndex].ingredients
         receipeVar.push.apply(receipeVar, receipeInplay);
 
@@ -187,34 +226,34 @@ const generateReceipe = (receipeID, receipeVar, plateId, plateVar) => {
         else if (receipeID.is($('#receipe3'))) {
             timedEvent3(receipeID, receipeVar, plateId, plateVar);
         }
-
-        // timeOut(receipeID, receipeVar, plateId, plateVar, timeoutVar, warnUserTimerVar)
-        // console.log(timeOut1)
-        // console.log(warnUserTimer1)
-        // console.log('generatereceip is running')
-
     }
     else if (controlIndex == 2) {
         return
     }
 
 }
-//match ingredients 
+//clear array 
 
 function clearArray(array) {
     while (array.length) {
         array.pop();
     }
 }
+/**
+ * matches existing receipe stored in ReceipeID with plateVar. 
+ * If ingredients in receipeVar == plateVar, 10 points is awarded to player.
+ * ReceipeVar and plateVar will be cleared and a new set of receipe will be generated
+ * @param {Jquery receipe ID} receipeID 
+ * @param {receipeOne,receipeTwo,receipeThree} receipeVar 
+ * @param {Jquery plate ID} plateId 
+ * @param {plateOne,plateTwo, plateThree} plateVar 
+ */
 
 const matchingredients = (plateVar, receipeVar, plateId, receipeID, ) => {
-    console.log(`on plate: ${plateVar}`);
-    console.log(`in receipe: ${receipeVar}`);
     if (plateVar.sort().join(',') === receipeVar.sort().join(',')) {
+        playEffect($('audio#matched'))
         clearArray(plateVar);
-        console.log(`on plate afterclearing: ${plateVar}`);
         clearArray(receipeVar);
-        console.log(plateVar);
         plateId.empty();
         receipeID.empty();
         addScore();
@@ -229,12 +268,12 @@ const matchingredients = (plateVar, receipeVar, plateId, receipeID, ) => {
         }
         receipeID.removeClass('blink');
         generateReceipe(receipeID, receipeVar, plateId, receipeID);
-        console.log('matchingredient is running')
 
     }
 }
 
 //Generate draggable ingredients 
+
 const appendImage = () => {
     for (let i = 0; i < imageObjects.length; i++) {
         const draggableDiv = $('<div>').addClass('draggable').attr('id', imageObjects[i].ingredient);
@@ -242,7 +281,6 @@ const appendImage = () => {
         draggableDiv.append(imageIng);
         $('.ingredients').append(draggableDiv);
     }
-    console.log('appendimage is running')
 
 }
 
@@ -258,9 +296,6 @@ const dropObject = (plateId, plateVar, receipeVar, receipeID, timeoutVar, warnUs
         {
             accept: '.draggable',
             disabled: false,
-            //     classes: {
-            //         "ui-droppable": "highlight"
-            //       },
             drop: function (event, ui) {
                 const droppedItem = $(ui.draggable).clone();
                 droppedItem.addClass('dropped');
@@ -278,6 +313,7 @@ const dropObject = (plateId, plateVar, receipeVar, receipeID, timeoutVar, warnUs
 
 }
 
+// disable Draggable and Droppable when game has ended
 const disableDraggable = () => {
     $(".draggable").draggable({
         disabled: true
@@ -295,8 +331,8 @@ const disableDraggableevent = (number) => {
 }
 
 
-// timer 
-let counter = 20;
+// Timer function 
+let counter = 100;
 
 const countdown = () => {
     counter--;
@@ -312,18 +348,16 @@ const startCountdown = () => {
     }, 1000);
 }
 
-// const countDownEnd = () => {
-//     if (counter == 0) {
-//         endgame();
-//     }
-// }
-
-
 const resetCounter = () => {
     $('#timer').empty()
-    counter = 20
+    counter = 100
     $('#timer').html(counter)
 }
+
+//Generate Random Trivia 
+
+const FOODAPI = 'https://api.spoonacular.com/food/jokes/random?apiKey=${apiKey}';
+
 const generateTrivia = () => {
     $('#trivia').empty()
 
@@ -341,7 +375,7 @@ const generateTrivia = () => {
     );
     }
 
-//try
+// Allow player to try playing the game again
 const tryAgain = () => {
     controlIndex = 1
     $('#gameover-modal').css('display', 'none');
@@ -354,14 +388,7 @@ const tryAgain = () => {
     start();
 
 }
-
-// highscore.push(score);
-// localStorage.setItem(key, score);
-// let key = 'game_highscore';
-
-// const maxHighScore = 5 ;
-
-
+// Create high Score board 
 let highScores = [];
 
 const updateHighScoreArray = () => {
@@ -370,7 +397,7 @@ const updateHighScoreArray = () => {
     let allscores = Object.values(currentHighScores);
     let sortScores = allscores.sort((a, b) => b - a); 
     console.log(sortScores)
-    highScores.push(sortScores.slice(0,5))
+    highScores = sortScores.slice(0,5)
     updateHighScoreBoard();
 }
 
@@ -391,6 +418,7 @@ const saveScoreToLocalStorage = () => {
     localStorage.setItem('highScores', JSON.stringify(existing));
 }
 
+// When game ends, a modal will popup asking if player wants to try again or view high score 
 const endgameModal = (score) => {
     $('#gameover-modal').css('display', 'block');
     $('#gameovertext').text(`Game Over! Your score is ${score}`)
@@ -403,7 +431,8 @@ const clearArrays = (array) => {
         clearArray(array[i])
     }
 }
-
+// Endgame function which turns off all game functions
+// A modal will be displayed with the score and the score will be saved to local storage
 const endgame = () => {
     generateTrivia();
     saveScoreToLocalStorage();
@@ -417,7 +446,6 @@ const endgame = () => {
     $('.receipes').empty();
     $('.receipes').removeClass('blink');
     $('.ingredients').empty()
-    // saveScore(score);
     myStopFunction1();
     myStopFunction2();
     myStopFunction3();
@@ -427,7 +455,7 @@ const endgame = () => {
 
 }
 
-//redo button 
+//If player put the wrong ingredient on the plate, he is able to clear the plate
 
 const redoButton = (plateVar, plateId) => {
     clearArray(plateVar)
@@ -458,9 +486,9 @@ const closeHighScoreModal = () => {
 const start = () => {
 
     generateReceipe($('#receipe1'), receipeOne, $('#plates1'), plateOne);
-    setTimeout(endgame, 3000);
+    setTimeout(endgame, 100000);
     setTimeout(function () { generateReceipe($('#receipe2'), receipeTwo, $('#plates2'), plateTwo) }, 3000);
-    setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 5000);
+    setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 6000);
     appendImage();
     dragObject();
     dropObject($('#plates1'), plateOne, receipeOne, $('#receipe1'));

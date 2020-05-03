@@ -22,16 +22,20 @@
                     <div id="instructions-textbox">
                         <a id="close" href="#">Close</a>
                         <p>How to play?</p>
-                        <p>Drag and drop the ingredients to the corresponding receipt above!</p>
+                        <p>Drag and drop ingredients on plate to complete the receipe shown on the first row</p>
+                        <p>You have 10 seconds to complete each receipe. The receipe will flash red when you have 4
+                            seconds left.</p>
+                        <img src="https://media.giphy.com/media/cPGnEFCChCPcTEdjK8/giphy.gif" width="650px"
+                            height="410px">
                     </div>
                 </div>
                 <button type="button" class="highScore">High Score</button>
                 <div id="highScore-modal">
-                <div id="highScore-textbox">
-                    <a id="closeHighScore" href="#">Close</a>
-                    <ul id= "scores">High Score</ul>
+                    <div id="highScore-textbox">
+                        <a id="closeHighScore" href="#">Close</a>
+                        <ul id="scores">High Score</ul>
+                    </div>
                 </div>
-            </div>
                 <div class='timerbox'>
                     <p id="timer">100</p>
                     <p id="seconds">Seconds</p>
@@ -69,13 +73,23 @@
         <div id="gameover-modal">
             <div id="gameovertextbox">
                 <p id="gameovertext"></p>
-                <p id="joke"></p>
+                <p id="trivia"></p>
 
                 <button type="button" id="tryagain">Try Again</button>
                 <button type="button" id="tryagainScore" class="highScore">High Score</button>
             </div>
         </div>
     </div>
+
+    <audio id="matched">
+        <source src="audio/matched.wav" type="audio/mpeg">
+    </audio>
+    <audio id="destroyed">
+        <source src="audio/destroyed.wav" type="audio/mpeg">
+    </audio>
+    <audio id="alert">
+        <source src="audio/beepalert.wav" type="audio/mpeg">
+    </audio>
 </body>
 
 </html>
