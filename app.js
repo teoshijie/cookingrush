@@ -501,8 +501,8 @@ const start = () => {
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
-    $('#startGame').off('click')
     executeEndgame();
+    $('#startGame').off('click')
 }
 
 
