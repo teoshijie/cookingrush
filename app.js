@@ -331,28 +331,7 @@ const disableDraggableevent = (number) => {
 }
 
 
-// Timer function 
-let counter = 100;
 
-const countdown = () => {
-    counter--;
-    if (counter >= 0) {
-        $('#timer').text(counter)
-    }
-
-}
-let timer;
-const startCountdown = () => {
-    timer = setInterval(() => {
-        countdown();
-    }, 1000);
-}
-
-const resetCounter = () => {
-    $('#timer').empty()
-    counter = 100
-    $('#timer').html(counter)
-}
 
 
 //Generate Random Trivia 
@@ -456,6 +435,42 @@ const endgame = () => {
 
 }
 
+
+// Timer function 
+let counter = 100;
+
+const countdown = () => {
+    counter --
+    console.log(counter);
+    if (counter >= 0) {
+        $('#timer').text(counter)
+    }
+    else if (counter < 0) {
+        endgame();
+    }
+
+}
+
+let timer;
+const startCountdown = () => {
+    timer = setInterval(() => {
+        countdown();
+    }, 1000);
+}
+
+const resetCounter = () => {
+    $('#timer').empty()
+    counter = 100
+    $('#timer').html(counter)
+}
+
+// const executeEndgame = () => {
+//     if (counter == 0) {
+//         endgame();
+//     }
+// }
+
+
 //If player put the wrong ingredient on the plate, he is able to clear the plate
 
 const redoButton = (plateVar, plateId) => {
@@ -495,8 +510,8 @@ const start = () => {
     dropObject($('#plates2'), plateTwo, receipeTwo, $('#receipe2'));
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
-    setTimeout(endgame, 102000);
-    executeEndgame();
+    // executeEndgame();
+    // setTimeout(endgame, 102000);
     $('#startGame').off('click')
 }
 
