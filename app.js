@@ -354,6 +354,12 @@ const resetCounter = () => {
     $('#timer').html(counter)
 }
 
+const executeEndgame = () => {
+    if (timer === 0) {
+        endgame();
+    }
+}
+
 //Generate Random Trivia 
 
 const FOODAPI = 'https://api.spoonacular.com/food/jokes/random?apiKey=${apiKey}';
@@ -486,7 +492,7 @@ const closeHighScoreModal = () => {
 const start = () => {
 
     generateReceipe($('#receipe1'), receipeOne, $('#plates1'), plateOne);
-    setTimeout(endgame, 102000);
+    // setTimeout(endgame, 102000);
     setTimeout(function () { generateReceipe($('#receipe2'), receipeTwo, $('#plates2'), plateTwo) }, 3000);
     setTimeout(function () { generateReceipe($('#receipe3'), receipeThree, $('#plates3'), plateThree) }, 6000);
     appendImage();
@@ -496,7 +502,7 @@ const start = () => {
     dropObject($('#plates3'), plateThree, receipeThree, $('#receipe3'));
     startCountdown();
     $('#startGame').off('click')
-
+    executeEndgame();
 }
 
 
