@@ -418,7 +418,7 @@ const endgame = () => {
 
 
 // Timer function 
-let counter = 100;
+let counter = 30;
 
 const countdown = () => {
     counter --
@@ -440,7 +440,7 @@ const startCountdown = () => {
 
 const resetCounter = () => {
     $('#timer').empty()
-    counter = 100
+    counter = 30
     $('#timer').html(counter)
 }
 
