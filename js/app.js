@@ -1,51 +1,6 @@
-console.log('app connected!')
+import {imageObjects} from './imageObjects.js';
+import {burgerRecipe} from './burgerreceipe.js';
 
-let imageObjects = [
-    {
-        ingredient: "chicken",
-        url: "https://i.ibb.co/r6x4hC1/whole-chicken.png"
-    },
-    {
-        ingredient: "cheese",
-        url: "https://spoonacular.com/cdn/ingredients_100x100/cheddar-cheese.png"
-    },
-    {
-        ingredient: "tomato",
-        url: "https://spoonacular.com/cdn/ingredients_100x100/tomato.png"
-    },
-    {
-        ingredient: "lettuce",
-        url: "https://i.ibb.co/xgLq9gv/iceberg-lettuce.png"
-    }
-]
-
-let burgerRecipe = [
-    {
-        dish: 'Burger',
-        dishImage: 'https://farm5.staticflickr.com/4900/46565460901_a2cd047abc.jpg',
-        ingredients: ["chicken", "cheese", "lettuce"]
-    },
-    {
-        dish: 'Chicken Burger',
-        dishImage: "https://www.themealdb.com/images/media/meals/sbx7n71587673021.jpg",
-        ingredients: ["chicken", "cheese", "lettuce", "tomato"]
-    },
-    {
-        dish: 'Vegetarian Burger',
-        dishImage: "https://i.ibb.co/KGJCTv0/vegesub.png",
-        ingredients: ["cheese", "lettuce", "tomato"]
-    },
-    {
-        dish: 'Cheese Burger',
-        dishImage: "https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg",
-        ingredients: ["cheese", "tomato", "chicken"]
-    },
-    {
-        dish: 'Chicken Tomato Burger',
-        dishImage: "https://www.ambitiouskitchen.com/wp-content/uploads/2016/07/chickenburgers-2.jpg",
-        ingredients: ["tomato", "chicken"]
-    },
-];
 
 
 //Array to store the current receipe that the player needs to cook 
@@ -129,7 +84,7 @@ const destroyPlate = (receipeID, receipeVar, plateId, plateVar) => {
     receipeID.empty();
     receipeID.removeClass('blink');
     minusScore();
-    //generate a new reeceipe
+    //generate a new receipe
     generateReceipe(receipeID, receipeVar, plateId, plateVar);
 
 }
@@ -351,7 +306,7 @@ const tryAgain = () => {
     start();
 
 }
-// Create high Score board 
+// Create high Score board using local storage. Only the top 5 scores will be displayed 
 let highScores = [];
 
 const updateHighScoreArray = () => {
@@ -359,6 +314,7 @@ const updateHighScoreArray = () => {
     let currentHighScores = JSON.parse(localStorage.getItem('highScores'));
     let allscores = Object.values(currentHighScores);
     let sortScores = allscores.sort((a, b) => b - a); 
+    // select the top 5 scores
     highScores = sortScores.slice(0,5)
     updateHighScoreBoard();
 }
@@ -374,7 +330,6 @@ const updateHighScoreBoard = () => {
 
 const saveScoreToLocalStorage = () => {
     let existing = JSON.parse(localStorage.getItem('highScores')) || [];
-
     existing.push(score);
     localStorage.setItem('highScores', JSON.stringify(existing));
 }
@@ -410,7 +365,6 @@ const endgame = () => {
     myStopFunction1();
     myStopFunction2();
     myStopFunction3();
-
     disableDraggable();
     disableDroppable();
 
