@@ -4,7 +4,7 @@ Cooking rush is a timed game whereby users have to prepare dishes based on the r
 
 # Project Demo 
 
-https://teoshijie.github.io/repo/#
+https://teoshijie.github.io/cookingrush/
 
 # Game Mechanic
 
